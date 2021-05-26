@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.uv.eu.mastermind.view;
 
+import es.uv.eu.mastermind.model.MastermindModelo;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -13,13 +9,16 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
- *
- * @author Raúl
+ * @brief Vista del Jugador 2
+ * @author Raúl Abella Bioque
+ * @author Cristal Campos Abad
  */
-public class VistaJugador2 extends JFrame{
+public class VistaJugador2 extends JFrame
+{
     private JuegoMenu menu;
     private Combinacion combinacion;
 
@@ -27,11 +26,17 @@ public class VistaJugador2 extends JFrame{
     private JLabel texto, paso;
     private Font fuente;
     private JButton jugar;
+    private JTextField usuario;
     
-    public VistaJugador2(){
-            super("MasterMind");
+    private MastermindModelo model;
+    
+    public VistaJugador2(MastermindModelo model)
+    {
+        super("MasterMind");
         
-        combinacion = new Combinacion();
+        this.model = model;
+        
+        combinacion = new Combinacion(model);
         menu = new JuegoMenu();
         titulo = new JPanel();
         empezar = new JPanel();
@@ -50,29 +55,41 @@ public class VistaJugador2 extends JFrame{
         texto.setFont(fuente);
         texto.setForeground(Color.BLUE);
         
-        titulo.add(texto);
+        titulo.setLayout(new BorderLayout());
+        titulo.add(texto, BorderLayout.NORTH);
+        //titulo.add(usuario);
         
         this.add(titulo,BorderLayout.NORTH);
         
         this.add(combinacion, BorderLayout.CENTER);
-          
-        
         
         //Boton empezar
         empezar.add(jugar);
         this.add(empezar,BorderLayout.SOUTH);
         
-        
         this.setVisible(false);
-    
-    
     }
-     public void setActionListener(ActionListener al) {
-
-         menu.setActionListener(al);
-        //combinacion.setActionListener(al);
+    
+    public void actualizaEstado()
+    {
+        combinacion.actualizaEstado();
+    }
+    
+    public void actualizaPistas(Boolean mostrar)
+    {
+        if (mostrar)
+            combinacion.muestraPistas();
+        else
+            combinacion.escondePistas();
+    }
+    
+    public void setActionListener(ActionListener al)
+    {
+        menu.setActionListener(al);
+        combinacion.setActionListener(al);
         jugar.addActionListener(al);
     }
+    
     
 }
 

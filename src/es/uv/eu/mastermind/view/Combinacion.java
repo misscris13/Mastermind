@@ -5,42 +5,43 @@
  */
 package es.uv.eu.mastermind.view;
 
+import es.uv.eu.mastermind.model.MastermindModelo;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
- *
- * @author Raúl
+ * @brief Botones de colores
+ * @author Raúl Abella Bioque
+ * @author Cristal Campos Abad
  */
-public class Combinacion extends JPanel {
-
+public class Combinacion extends JPanel
+{
     private String[] nombreBotones = {"Negro", "Naranja", "Rosa", "Amarillo", "Blanco", "Rojo", "Azul", "Verde",};
     private Color[] colores = {Color.BLACK, Color.ORANGE, Color.PINK, Color.YELLOW, Color.WHITE, Color.RED, Color.BLUE, Color.GREEN};
     private JButton[] botonesColor = new JButton[8];
     private Font fuente;
     private JLabel paso, combinacionFrase;
-    private JTextField rect1, rect2, rect3, rect4;
-    private JPanel status, combinaciones, titulo;
-    private Color color1 = Color.BLACK;
-    private Color color2 = Color.BLACK;
-    private Color color3 = Color.BLACK;
-    private Color color4 = Color.BLACK;
-
-    public Combinacion() {
-
+    private JTextField[] vTFields1 = new JTextField[4];
+    private JTextField[] vTFields2 = new JTextField[4];
+    private JPanel status, status2, status3, combinaciones, titulo;
+    private MastermindModelo model;
+    
+    public Combinacion(MastermindModelo model)
+    {
+        this.model = model;
         
         status = new JPanel();
+        status2 = new JPanel();
+        status3 = new JPanel();
         combinaciones = new JPanel();
         titulo = new JPanel();
 
@@ -79,36 +80,90 @@ public class Combinacion extends JPanel {
 
         this.add(combinaciones, BorderLayout.CENTER);
 
-        rect1 = new JTextField("            ");
-        rect1.setEditable(false);
-        rect1.setBackground(color1);
-        rect1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-        rect2 = new JTextField("            ");
-        rect2.setEditable(false);
-        rect2.setBackground(color2);
-        rect2.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-        rect3 = new JTextField("            ");
-        rect3.setEditable(false);
-        rect3.setBackground(color3);
-        rect3.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-        rect4 = new JTextField("            ");
-        rect4.setEditable(false);
-        rect4.setBackground(color4);
-        rect4.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        status3.setLayout(new BorderLayout());
         
         status.add(combinacionFrase);
-        status.add(rect1);
-        status.add(rect2);
-        status.add(rect3);
-        status.add(rect4);
+        
+        // Intento (status)
+        for(int i = 0; i < 4; i++)
+        {
+            vTFields1[i] = new JTextField("            ");
+            vTFields1[i].setEditable(false);
+            vTFields1[i].setBackground(model.getIntento(i));
+            vTFields1[i].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+            
+            status.add(vTFields1[i]);
+        }
+        
+        // Pistas (status2)
+        for(int i = 0; i < 4; i++)
+        {
+            vTFields2[i] = new JTextField("       ");
+            vTFields2[i].setEditable(false);
+            vTFields2[i].setBackground(model.getIntento(i));
+            vTFields2[i].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+            
+            status2.add(vTFields2[i]);
+        }
 
-        this.add(status, BorderLayout.SOUTH);
-
+        status3.add(status);
+        
+        status3.add(status2, BorderLayout.SOUTH);
+        escondePistas();
+        
+        this.add(status3, BorderLayout.SOUTH);
+        
         this.setVisible(true);
-
     }
-
+    
+    public void actualizaEstado()
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            if(model.getJugador() == 1)
+                vTFields1[i].setBackground(model.getSolucion(i));
+            else if (model.getJugador() == 2)
+                vTFields1[i].setBackground(model.getIntento(i));
+        }
+    }
+    
+    public void muestraPistas()
+    {
+        int[] pistas = model.getPistas();
+        
+        for (int i = 0; i < pistas.length; i++)
+        {
+            switch(pistas[i])
+            {
+                case 0:
+                    vTFields2[i].setBackground(Color.WHITE);
+                    break;
+                case 1:
+                    vTFields2[i].setBackground(Color.RED);
+                    break;
+                case 2:
+                    vTFields2[i].setBackground(Color.BLACK);
+                    break;
+            }
+        }
+        
+        status2.setVisible(true);
+    }
+    
+    public void escondePistas()
+    {
+        status2.setVisible(false);
+    }
+    
+    /**
+     * @brief Añadido de los oyentes de accion
+     * @param al Oyente de accion
+     */
+    public void setActionListener(ActionListener al)
+    {
+        for(int i = 0; i < 8; i++)
+        {
+            botonesColor[i].addActionListener(al);
+        }
+    }
 }

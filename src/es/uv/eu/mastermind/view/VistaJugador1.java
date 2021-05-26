@@ -5,6 +5,7 @@
  */
 package es.uv.eu.mastermind.view;
 
+import es.uv.eu.mastermind.model.MastermindModelo;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -16,11 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
- *
- * @author Raúl
+ * @brief Vista del Jugador 1
+ * @author Raúl Abella Bioque
+ * @author Cristal Campos Abad
  */
-public class VistaJugador1 extends JFrame {
-    
+public class VistaJugador1 extends JFrame
+{
     private JuegoMenu menu;
     private Combinacion combinacion;
     
@@ -29,12 +31,15 @@ public class VistaJugador1 extends JFrame {
     private Font fuente;
     private JButton jugar;
     
+    private MastermindModelo model;
     
-    
-    public VistaJugador1(){
-      super("MasterMind");
+    public VistaJugador1(MastermindModelo model)
+    {
+        super("MasterMind");
         
-        combinacion = new Combinacion();
+        this.model = model;
+        
+        combinacion = new Combinacion(model);
         menu = new JuegoMenu();
         titulo = new JPanel();
         empezar = new JPanel();
@@ -67,14 +72,17 @@ public class VistaJugador1 extends JFrame {
         
         
         this.setVisible(true);
-    
-    
     }
-     public void setActionListener(ActionListener al) {
-          menu.setActionListener(al);
-        //combinacion.setActionListener(al);
+    
+    public void setActionListener(ActionListener al)
+    {
+        menu.setActionListener(al);
+        combinacion.setActionListener(al);
         jugar.addActionListener(al);
-
     }
     
+    public void actualizaEstado()
+    {
+        combinacion.actualizaEstado();
+    }
 }

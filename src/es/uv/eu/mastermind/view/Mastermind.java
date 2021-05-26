@@ -1,26 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.uv.eu.mastermind.view;
 
 import es.uv.eu.mastermind.controller.MastermindController;
+import es.uv.eu.mastermind.model.MastermindModelo;
 
 /**
- *
- * @author Raúl
+ * @brief Clase main de la aplicación
+ * @author Raúl Abella Bioque
+ * @author Cristal Campos Abad
  */
 public class Mastermind {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        
-        VistaJugador1 view = new VistaJugador1();
-        VistaJugador2 view2 = new VistaJugador2();
-        MastermindController controlador = new MastermindController(view, view2);
+    public static void main(String[] args)
+    {
+        MastermindModelo model = new MastermindModelo();
+        VistaJugador1 view = new VistaJugador1(model);
+        VistaJugador2 view2 = new VistaJugador2(model);
+        MastermindController controlador = new MastermindController(view, view2, model);
 
         view.setSize(800, 550);
         view.setVisible(true);

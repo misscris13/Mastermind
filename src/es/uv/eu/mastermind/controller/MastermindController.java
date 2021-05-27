@@ -86,11 +86,22 @@ public class MastermindController {
                     model.resetPaso();
                     break;
                 case "Siguiente":
-                    pistas = !pistas;
-                    if (pistas)
-                        model.comprobarIntento();
-                    jugador2.actualizaPistas(pistas);
-                    //model.resetIntento();
+                    if (model.pasarRonda(pistas))
+                    {
+                        pistas = !pistas;
+                        if (pistas)
+                            model.comprobarIntento();
+                        jugador2.actualizaPistas(pistas);
+                        model.resetIntento();
+                        model.resetPaso();
+                        model.aumentarPaso();
+                    }
+                    jugador2.actualizaTitulo();
+                    System.out.println(model.getRondaActual());
+                    break;
+                case "Registrar":
+                    System.out.println("Registrar usuario");
+                    model.setUsuario(jugador2.getUsuario());
                     break;
                 case "Salir":
                     System.out.println("Salir");

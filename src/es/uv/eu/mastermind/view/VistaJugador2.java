@@ -19,15 +19,22 @@ import javax.swing.SwingConstants;
  */
 public class VistaJugador2 extends JFrame
 {
+    // MENU
     private JuegoMenu menu;
+    // COLORES, PISTAS Y PUNTOS
     private Combinacion combinacion;
 
-    private JPanel titulo, empezar;
-    private JLabel texto, paso;
+    // NORTE, USUARIO Y SUR
+    private JPanel cabecera, usuarioPanel, pie;
+    // MENSAJE BIENVENIDA Y TIP DE USUARIO
+    private JLabel titulo, usuarioGuia;
+    // FUENTE DEL TEXTO
     private Font fuente;
-    private JButton jugar;
+    // BOTON "SIGUIENTE", "REGISTRAR"
+    private JButton siguiente, usuarioBoton;
+    // CAMPO DE USUARIO
     private JTextField usuario;
-    
+    // MODELO
     private MastermindModelo model;
     
     public VistaJugador2(MastermindModelo model)
@@ -38,34 +45,45 @@ public class VistaJugador2 extends JFrame
         
         combinacion = new Combinacion(model);
         menu = new JuegoMenu();
-        titulo = new JPanel();
-        empezar = new JPanel();
+        cabecera = new JPanel();
+        usuarioPanel = new JPanel();
+        pie = new JPanel();
+        usuario = new JTextField(10);
         
-        jugar = new JButton("Siguiente");
-        jugar.setActionCommand("Siguiente");
+        siguiente = new JButton("Siguiente");
+        siguiente.setActionCommand("Siguiente");
+        usuarioBoton = new JButton("Registrar");
+        usuarioBoton.setActionCommand("Registrar");
         
         this.setLayout(new BorderLayout());
         
         this.setJMenuBar(menu);
         
-        texto = new JLabel("Jugador 2, es tu turno", SwingConstants.CENTER);
+        titulo = new JLabel("", SwingConstants.CENTER);
+        actualizaTitulo();
     
         fuente = new Font("Sans", Font.BOLD, 20);
         
-        texto.setFont(fuente);
-        texto.setForeground(Color.BLUE);
+        titulo.setFont(fuente);
+        titulo.setForeground(Color.BLUE);
         
-        titulo.setLayout(new BorderLayout());
-        titulo.add(texto, BorderLayout.NORTH);
-        //titulo.add(usuario);
+        usuarioGuia = new JLabel("Escribe tu usuario", SwingConstants.CENTER);
         
-        this.add(titulo,BorderLayout.NORTH);
+        usuarioPanel.add(usuarioGuia);
+        usuarioPanel.add(usuario);
+        usuarioPanel.add(usuarioBoton);
         
-        this.add(combinacion, BorderLayout.CENTER);
+        cabecera.setLayout(new BorderLayout());
+        cabecera.add(titulo, BorderLayout.NORTH);
+        cabecera.add(usuarioPanel);
+        
+        this.add(cabecera, BorderLayout.NORTH);
+        
+        this.add(combinacion);
         
         //Boton empezar
-        empezar.add(jugar);
-        this.add(empezar,BorderLayout.SOUTH);
+        pie.add(siguiente);
+        this.add(pie, BorderLayout.SOUTH);
         
         this.setVisible(false);
     }
@@ -83,14 +101,25 @@ public class VistaJugador2 extends JFrame
             combinacion.escondePistas();
     }
     
+    public void actualizaTitulo()
+    {
+        titulo.setText("Jugador 2, es tu turno. Ronda " + String.valueOf(model.getRondaActual() + 1) + "/" + String.valueOf(model.getRondas()));
+        System.out.println(titulo.getText());
+    }
+    
+    public String getUsuario()
+    {
+        usuarioPanel.setVisible(false);
+        return usuario.getText();
+    }
+    
     public void setActionListener(ActionListener al)
     {
         menu.setActionListener(al);
         combinacion.setActionListener(al);
-        jugar.addActionListener(al);
+        siguiente.addActionListener(al);
+        usuarioBoton.addActionListener(al);
     }
-    
-    
 }
 
    

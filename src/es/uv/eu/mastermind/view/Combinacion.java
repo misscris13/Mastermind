@@ -32,18 +32,20 @@ public class Combinacion extends JPanel
     private JLabel paso, combinacionFrase;
     private JTextField[] vTFields1 = new JTextField[4];
     private JTextField[] vTFields2 = new JTextField[4];
-    private JPanel status, status2, status3, combinaciones, titulo;
+    private JLabel puntos;
+    private JPanel statusCombinacion, statusPistas, status, combinaciones, titulo;
     private MastermindModelo model;
     
     public Combinacion(MastermindModelo model)
     {
         this.model = model;
         
+        statusCombinacion = new JPanel();
+        statusPistas = new JPanel();
         status = new JPanel();
-        status2 = new JPanel();
-        status3 = new JPanel();
         combinaciones = new JPanel();
         titulo = new JPanel();
+        puntos = new JLabel();
 
         this.setLayout(new BorderLayout());
 
@@ -80,9 +82,9 @@ public class Combinacion extends JPanel
 
         this.add(combinaciones, BorderLayout.CENTER);
 
-        status3.setLayout(new BorderLayout());
+        status.setLayout(new BorderLayout());
         
-        status.add(combinacionFrase);
+        statusCombinacion.add(combinacionFrase);
         
         // Intento (status)
         for(int i = 0; i < 4; i++)
@@ -92,8 +94,10 @@ public class Combinacion extends JPanel
             vTFields1[i].setBackground(model.getIntento(i));
             vTFields1[i].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
             
-            status.add(vTFields1[i]);
+            statusCombinacion.add(vTFields1[i]);
         }
+        
+        statusPistas.add(puntos);
         
         // Pistas (status2)
         for(int i = 0; i < 4; i++)
@@ -103,15 +107,15 @@ public class Combinacion extends JPanel
             vTFields2[i].setBackground(model.getIntento(i));
             vTFields2[i].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
             
-            status2.add(vTFields2[i]);
+            statusPistas.add(vTFields2[i]);
         }
-
-        status3.add(status);
         
-        status3.add(status2, BorderLayout.SOUTH);
+        
+        status.add(statusCombinacion);
+        status.add(statusPistas, BorderLayout.SOUTH);
         escondePistas();
         
-        this.add(status3, BorderLayout.SOUTH);
+        this.add(status, BorderLayout.SOUTH);
         
         this.setVisible(true);
     }
@@ -147,12 +151,13 @@ public class Combinacion extends JPanel
             }
         }
         
-        status2.setVisible(true);
+        puntos.setText(String.valueOf(model.devuelvePuntos()) + " puntos");
+        statusPistas.setVisible(true);
     }
     
     public void escondePistas()
     {
-        status2.setVisible(false);
+        statusPistas.setVisible(false);
     }
     
     /**

@@ -9,6 +9,11 @@ import java.awt.Color;
  */
 public class MastermindModelo
 {
+    // Número de rondas a jugar
+    private int rondas = 5;
+    // Ronda actual
+    private int rondaActual = 0;
+    
     // Colores elegidos por el J1
     private Color[] solucion = {Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY};
     // Colores elegidos por el J2
@@ -22,14 +27,48 @@ public class MastermindModelo
     
     // Quién juega? 1 = J1, 2 = J2
     private int jActivo;
+    // Usuario
+    private String usuario;
     
     // Paso
     private int paso;
+    
+    // Puntos
+    int puntos = 0;
     
     public MastermindModelo()
     {
         jActivo = 1;
         paso = 0;
+    }
+    
+    public void setRondas(int n)
+    {
+        rondas = n;
+    }
+    
+    public int getRondas()
+    {
+        return rondas;
+    }
+    
+    public Boolean pasarRonda(Boolean pistas)
+    {
+        Boolean ok = true;
+        
+        if ((rondaActual < rondas) && (pistas))
+            rondaActual++;
+        else if (!pistas)
+            ok = true;
+        else
+            ok = false;
+        
+        return ok;
+    }
+    
+    public int getRondaActual()
+    {
+        return rondaActual;
     }
     
     public void setSolucion(String s)
@@ -58,16 +97,24 @@ public class MastermindModelo
     public void setIntento(String s)
     {
         Boolean repe = false;
+        
         for (int i = 0; (i < intento.length) && (!repe); i++)
         {
             if (convertirColor(s) == intento[i])
                 repe = true;
         }
         
-        if (!repe)
+        if ((!repe) && (pistas[paso] != 2))
         {
             intento[paso] = convertirColor(s);
-            paso++;
+            
+            aumentarPaso();
+        }
+        else if (pistas[paso] == 2)
+        {
+            System.out.println("Color ya acertado");
+            
+            aumentarPaso();
         }
         else
             System.out.println("Color repetido");
@@ -103,13 +150,24 @@ public class MastermindModelo
         return pistas;
     }
     
-    /*public void resetIntento()
+    public void setUsuario(String usuario)
+    {
+        this.usuario = usuario;
+    }
+    
+    public String getUsuario()
+    {
+        return usuario;
+    }
+    
+    public void resetIntento()
     {
         for (int i = 0; i < intento.length; i++)
         {
-            
+            if (pistas[i] != 2)
+                intento[i] = Color.GRAY;
         }
-    }*/
+    }
     
     public Color convertirColor(String command)
     {
@@ -151,8 +209,7 @@ public class MastermindModelo
     
     public int devuelvePuntos()
     {
-        int puntos = 0;
-        
+        puntos = 0;
         for (int i = 0; i < pistas.length; i++)
         {
             switch(pistas[i])
@@ -170,5 +227,10 @@ public class MastermindModelo
         }
         
         return puntos;
+    }
+    
+    public void aumentarPaso()
+    {
+        while((pistas[paso + 1] != 2))
     }
 }

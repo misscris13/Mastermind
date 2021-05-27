@@ -85,6 +85,7 @@ public class VistaJugador2 extends JFrame
         pie.add(siguiente);
         this.add(pie, BorderLayout.SOUTH);
         
+        usuarioPanel.setVisible(true);
         this.setVisible(false);
     }
     
@@ -104,7 +105,6 @@ public class VistaJugador2 extends JFrame
     public void actualizaTitulo()
     {
         titulo.setText("Jugador 2, es tu turno. Ronda " + String.valueOf(model.getRondaActual() + 1) + "/" + String.valueOf(model.getRondas()));
-        System.out.println(titulo.getText());
     }
     
     public String getUsuario()

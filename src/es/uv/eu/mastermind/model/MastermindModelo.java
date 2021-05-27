@@ -1,6 +1,11 @@
 package es.uv.eu.mastermind.model;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Vector;
+import javax.imageio.ImageIO;
 
 /**
  * @brief Modelo de la aplicación
@@ -29,6 +34,10 @@ public class MastermindModelo
     private int jActivo;
     // Usuario
     private String usuario;
+    // Vector del ranking
+    private String[] ranking;
+    // Vector de puntos
+    private int[] puntosRank = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     
     // Paso
     private int paso;
@@ -36,10 +45,15 @@ public class MastermindModelo
     // Puntos
     int puntos = 0;
     
+    // Imagen
+    private BufferedImage imagen;
+    private String imagenFileName = "";
+    
     public MastermindModelo()
     {
         jActivo = 1;
         paso = 0;
+        ranking = new String[10];
     }
     
     public void setRondas(int n)
@@ -56,7 +70,7 @@ public class MastermindModelo
     {
         Boolean ok = true;
         
-        if ((rondaActual < rondas) && (pistas))
+        if ((rondaActual < (rondas - 1)) && (pistas))
             rondaActual++;
         else if (!pistas)
             ok = true;
@@ -108,13 +122,15 @@ public class MastermindModelo
         {
             intento[paso] = convertirColor(s);
             
-            aumentarPaso();
+            paso++;
+            //aumentarPaso();
         }
         else if (pistas[paso] == 2)
         {
             System.out.println("Color ya acertado");
             
-            aumentarPaso();
+            paso++;
+            //aumentarPaso();
         }
         else
             System.out.println("Color repetido");
@@ -160,6 +176,65 @@ public class MastermindModelo
         return usuario;
     }
     
+    public BufferedImage getImagen()
+    {
+        return imagen;
+    }
+
+    public String getImagenFileName()
+    {
+        return imagenFileName;
+    }
+    
+    public void setImagen(String img)
+    {
+        try
+        {
+            imagenFileName = "imagenes/" + img + ".jpg";
+            imagen = ImageIO.read(new File(imagenFileName));
+        }
+        catch (IOException e)
+        {
+            System.out.println("Error leyendo '" + this.imagenFileName + "'.");
+            System.out.println("Causa: " + e.getLocalizedMessage());
+        }
+    }
+    
+    public String[] getRanking()
+    {
+        return ranking;
+    }
+    
+    public void setRanking()
+    {
+        Boolean ok = false;
+        
+        String user = usuario, auxUsuario;
+        int ptos = devuelvePuntos(), auxPuntos, i;
+        
+        for (i = 0; i < ranking.length; i++)
+        {
+            if (puntosRank[i] < ptos)
+            {
+                auxUsuario = ranking[i];
+                auxPuntos = puntosRank[i];
+                
+                ranking[i] = user;
+                puntosRank[i] = ptos;
+                
+                ok = true;
+                
+                user = auxUsuario;
+                ptos = auxPuntos;
+            }
+        }
+    }
+    
+    public int[] getRankingPuntos()
+    {
+        return puntosRank;
+    }
+    
     public void resetIntento()
     {
         for (int i = 0; i < intento.length; i++)
@@ -167,6 +242,25 @@ public class MastermindModelo
             if (pistas[i] != 2)
                 intento[i] = Color.GRAY;
         }
+    }
+    
+    public void resetSolucion()
+    {
+        for (int i = 0; i < solucion.length; i++)
+        {
+            solucion[i] = Color.GRAY;
+        }
+    }
+    
+    public void resetRondas()
+    {
+        rondaActual = 0;
+    }
+    
+    public void resetPistas()
+    {
+        for (int i = 0; i < pistas.length; i++)
+            pistas[i] = 0;
     }
     
     public Color convertirColor(String command)
@@ -231,6 +325,33 @@ public class MastermindModelo
     
     public void aumentarPaso()
     {
-        while((pistas[paso + 1] != 2))
+        Boolean ok = true;
+        int i;
+        
+        if(rondaActual == 0)
+            paso++;
+        else
+        {
+            for(i = paso; (i < 4) && (ok); i++)
+            {
+                if (pistas[i] != 2)
+                    ok = false;
+            }
+            if (i == (paso + 1))
+                paso++;
+            else
+                paso = i;
+        }
+        
+        
+    }
+    
+    public void resetJuego()
+    {
+        resetPistas();
+        resetIntento();
+        resetSolucion();
+        resetPaso();
+        resetRondas();
     }
 }

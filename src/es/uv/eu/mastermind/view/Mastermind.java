@@ -18,7 +18,9 @@ public class Mastermind {
         MastermindModelo model = new MastermindModelo();
         VistaJugador1 view = new VistaJugador1(model);
         VistaJugador2 view2 = new VistaJugador2(model);
-        MastermindController controlador = new MastermindController(view, view2, model);
+        VistaFinal fin = new VistaFinal(model);
+        Ranking rank = new Ranking(model);
+        MastermindController controlador = new MastermindController(view, view2, fin, rank, model);
 
         view.setSize(800, 550);
         view.setVisible(true);

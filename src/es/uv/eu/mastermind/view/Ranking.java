@@ -23,6 +23,10 @@ public class Ranking extends JFrame
     private Font fuente;
     private MastermindModelo model;
     
+    /**
+     * @brief Constructor del panel
+     * @param model Modelo
+     */
     public Ranking(MastermindModelo model)
     {
         this.model = model;
@@ -31,6 +35,7 @@ public class Ranking extends JFrame
         ranking.setLayout(new BoxLayout(ranking, BoxLayout.Y_AXIS));
         
         puestos = new JLabel[10];
+        
         for (int i = 0; i < puestos.length; i++)
             puestos[i] = new JLabel("", SwingConstants.CENTER);
         
@@ -49,6 +54,9 @@ public class Ranking extends JFrame
         this.setVisible(false);
     }
     
+    /**
+     * @brief Actualiza las etiquetas del ranking
+     */
     public void actualizaRanking()
     {
         ranking = new JPanel();

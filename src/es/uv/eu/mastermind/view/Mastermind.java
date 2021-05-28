@@ -22,7 +22,7 @@ public class Mastermind {
         Ranking rank = new Ranking(model);
         VentanaAbout about = new VentanaAbout();
         MastermindController controlador = new MastermindController(view, view2, fin, rank, about, model);
-
+        
         view.setSize(800, 550);
         view.setVisible(true);
     }

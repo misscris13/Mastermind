@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.uv.eu.mastermind.view;
 
 import es.uv.eu.mastermind.model.MastermindModelo;
@@ -19,23 +14,36 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
- * @brief Botones de colores
+ * @brief Botones de colores, pistas e intentos
  * @author Raúl Abella Bioque
  * @author Cristal Campos Abad
  */
 public class Combinacion extends JPanel
 {
+    //NOMBRES DE LOS BOTONES
     private String[] nombreBotones = {"Negro", "Naranja", "Rosa", "Amarillo", "Blanco", "Rojo", "Azul", "Verde",};
+    //COLORES
     private Color[] colores = {Color.BLACK, Color.ORANGE, Color.PINK, Color.YELLOW, Color.WHITE, Color.RED, Color.BLUE, Color.GREEN};
+    //VECTOR DE BOTONES
     private JButton[] botonesColor = new JButton[8];
+    
     private Font fuente;
-    private JLabel paso, combinacionFrase;
+    private JLabel paso, combinacionFrase, puntos;
+    
+    //VECTOR DE INTENTOS
     private JTextField[] vTFields1 = new JTextField[4];
+    //VECTOR DE PISTAS
     private JTextField[] vTFields2 = new JTextField[4];
-    private JLabel puntos;
+    //VECTOR DE INTENTOS ANTERIORES
+    private JTextField[] anterior = new JTextField[4];
+    
     private JPanel statusCombinacion, statusPistas, status, combinaciones, titulo;
     private MastermindModelo model;
     
+    /**
+     * @brief Constructor del panel
+     * @param model Modelo
+     */
     public Combinacion(MastermindModelo model)
     {
         this.model = model;
@@ -62,7 +70,7 @@ public class Combinacion extends JPanel
         //  ASPECTO PANEL
         combinaciones.setLayout(new GridLayout(4, 2, 10, 10));
         
-         //  BUCLE BOTONES
+            //  BUCLE BOTONES
             for(int i = 0; i < 8; i++)
             {
                 botonesColor[i] = new JButton(nombreBotones[i]);
@@ -86,7 +94,7 @@ public class Combinacion extends JPanel
         
         statusCombinacion.add(combinacionFrase);
         
-        // Intento (status)
+        // Intento
         for(int i = 0; i < 4; i++)
         {
             vTFields1[i] = new JTextField("            ");
@@ -99,19 +107,26 @@ public class Combinacion extends JPanel
         
         statusPistas.add(puntos);
         
-        // Pistas (status2)
+        // Pistas
         for(int i = 0; i < 4; i++)
         {
             vTFields2[i] = new JTextField("       ");
             vTFields2[i].setEditable(false);
-            vTFields2[i].setBackground(model.getIntento(i));
             vTFields2[i].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
             
             statusPistas.add(vTFields2[i]);
         }
         
+        // Anterior
+        for(int i = 0; i < 4; i++)
+        {
+            anterior[i] = new JTextField("            ");
+            anterior[i].setEditable(false);
+            anterior[i].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        }
         
         status.add(statusCombinacion);
+        
         status.add(statusPistas, BorderLayout.SOUTH);
         escondePistas();
         
@@ -120,6 +135,9 @@ public class Combinacion extends JPanel
         this.setVisible(true);
     }
     
+    /**
+     * @brief Actualiza la combinación actual
+     */
     public void actualizaEstado()
     {
         for(int i = 0; i < 4; i++)
@@ -131,6 +149,20 @@ public class Combinacion extends JPanel
         }
     }
     
+    /**
+     * @brief Actualiza la combinación anterior
+     */
+    public void actualizaAnterior()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            anterior[i].setBackground(vTFields1[i].getBackground());
+        }
+    }
+    
+    /**
+     * @brief Muestra las pistas
+     */
     public void muestraPistas()
     {
         int[] pistas = model.getPistas();
@@ -155,9 +187,23 @@ public class Combinacion extends JPanel
         statusPistas.setVisible(true);
     }
     
+    /**
+     * @brief Esconde las pistas
+     */
     public void escondePistas()
     {
         statusPistas.setVisible(false);
+    }
+    
+    /**
+     * @brief Reinicia la combinación actual
+     */
+    public void resetCombinacion()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            vTFields1[i].setBackground(Color.GRAY);
+        } 
     }
     
     /**

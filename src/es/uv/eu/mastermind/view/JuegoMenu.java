@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.uv.eu.mastermind.view;
 
 import java.awt.Color;
@@ -10,28 +5,30 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 /**
  * @brief Constructor de la clase JuegoMenu
- * @author Raúl
+ * @author Raúl Abella Bioque
+ * @author Cristal Campos Abad
  */
-public class JuegoMenu extends JMenuBar {
-
+public class JuegoMenu extends JMenuBar
+{
     private JMenu menu, ayuda, ranking;
     private JMenuItem salir,volver, help, points;
 
-    public JuegoMenu() {
-
+    /**
+     * @brief Constructor del menú
+     */
+    public JuegoMenu()
+    {
         menu = new JMenu("Menu");
         salir = new JMenuItem("Salir");
         volver = new JMenuItem("Volver a Empezar");
-       salir.setActionCommand("Salir");
-      volver.setActionCommand("VolverEmpezar");
+        salir.setActionCommand("Salir");
+        volver.setActionCommand("VolverEmpezar");
       
         menu.add(volver);
         menu.add(salir);
-          
 
         ayuda = new JMenu("¿Qué es?");
 
@@ -56,13 +53,15 @@ public class JuegoMenu extends JMenuBar {
         this.setVisible(true);
     }
 
+    /**
+     * @brief Añadido de los oyentes de acción
+     * @param al Oyente de acción
+     */
     public void setActionListener(ActionListener al) {
         
         volver.addActionListener(al);
         salir.addActionListener(al);
         help.addActionListener(al);
         points.addActionListener(al);
-
     }
-
 }

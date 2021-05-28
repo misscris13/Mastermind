@@ -49,6 +49,9 @@ public class MastermindModelo
     private BufferedImage imagen;
     private String imagenFileName = "";
     
+    /**
+     * @brief Constructor del modelo
+     */
     public MastermindModelo()
     {
         jActivo = 1;
@@ -56,16 +59,29 @@ public class MastermindModelo
         ranking = new String[10];
     }
     
+    /**
+     * @brief Asigna un valor a las rondas
+     * @param n Nuevo valor
+     */
     public void setRondas(int n)
     {
         rondas = n;
     }
     
+    /**
+     * @brief Devuelve el número de rondas totales
+     * @return Rondas
+     */
     public int getRondas()
     {
         return rondas;
     }
     
+    /**
+     * @brief Aumenta la ronda si es posible
+     * @param pistas Si toca mostrar las pistas
+     * @return Si se ha aumentado o no
+     */
     public Boolean pasarRonda(Boolean pistas)
     {
         Boolean ok = true;
@@ -80,21 +96,30 @@ public class MastermindModelo
         return ok;
     }
     
+    /**
+     * @brief Devuelve la ronda actual
+     * @return Ronda actual
+     */
     public int getRondaActual()
     {
         return rondaActual;
     }
     
+    /**
+     * @brief Asigna valores a la solucion
+     * @param s Nombre del color a asignar
+     */
     public void setSolucion(String s)
     {
         Boolean repe = false;
+        
         for (int i = 0; (i < solucion.length) && (!repe); i++)
         {
             if (convertirColor(s) == solucion[i])
                 repe = true;
         }
         
-        if (!repe)
+        if (!repe)  //Si no está repetido lo asignamos
         {
             solucion[paso] = convertirColor(s);
             paso++;
@@ -103,11 +128,20 @@ public class MastermindModelo
             System.out.println("Color repetido");
     }
     
+    /**
+     * @brief Devuelve el color de la solucion en la posicion i
+     * @param i Posicion
+     * @return Color
+     */
     public Color getSolucion(int i)
     {
         return solucion[i];
     }
     
+    /**
+     * @brief Asigna un color al intento
+     * @param s Nombre del color
+     */
     public void setIntento(String s)
     {
         Boolean repe = false;
@@ -118,74 +152,116 @@ public class MastermindModelo
                 repe = true;
         }
         
-        if ((!repe) && (pistas[paso] != 2))
+        if ((!repe) && (pistas[paso] != 2)) //Si no está repetido ni fijo
         {
             intento[paso] = convertirColor(s);
             
             paso++;
-            //aumentarPaso();
         }
-        else if (pistas[paso] == 2)
+        else if (pistas[paso] == 2) //Si está fijo
         {
             System.out.println("Color ya acertado");
             
             paso++;
-            //aumentarPaso();
         }
         else
             System.out.println("Color repetido");
     }
     
+    /**
+     * @brief Devuelve el intento en la posición i
+     * @param i Posición
+     * @return Color
+     */
     public Color getIntento(int i)
     {
         return intento[i];
     }
     
+    /**
+     * @brief Asigna el jugador activo
+     * @param i Jugador activo, 1 o 2
+     */
     public void setJugador(int i)
     {
         jActivo = i;
     }
     
+    /**
+     * @brief Devuelve el jugador activo
+     * @return Jugador activo
+     */
     public int getJugador()
     {
         return jActivo;
     }
     
+    /**
+     * @brief Pone el paso a 0
+     */
     public void resetPaso()
     {
         paso = 0;
     }
     
+    /**
+     * @brief Devuelve el paso actual
+     * @return Paso
+     */
     public int getPaso()
     {
         return paso;
     }
     
+    /**
+     * @brief Devuelve el vector de pistas
+     * @return Vector pistas
+     */
     public int[] getPistas()
     {
         return pistas;
     }
     
+    /**
+     * @brief Asigna un nombre al usuario
+     * @param usuario Nombre
+     */
     public void setUsuario(String usuario)
     {
         this.usuario = usuario;
     }
     
+    /**
+     * @brief Devuelve el usuario
+     * @return Nombre
+     */
     public String getUsuario()
     {
         return usuario;
     }
     
+    /**
+     * @brief Devuelve la imagen
+     * @return Imagen
+     */
     public BufferedImage getImagen()
     {
         return imagen;
     }
 
+    /**
+     * @brief Devuelve el nombre de la imagen
+     * @return Nombre
+     */
     public String getImagenFileName()
     {
         return imagenFileName;
     }
     
+    /**
+     * @brief Asigna una imagen segun un nombre
+     * @param img Nombre
+     */
     public void setImagen(String img)
     {
         try
@@ -200,11 +276,18 @@ public class MastermindModelo
         }
     }
     
+    /**
+     * @brief Devuelve el vector ranking (usuarios)
+     * @return Vector Ranking
+     */
     public String[] getRanking()
     {
         return ranking;
     }
     
+    /**
+     * @brief Inserta una entrada en el ranking en su puesto correspondiente
+     */
     public void setRanking()
     {
         Boolean ok = false;
@@ -220,11 +303,18 @@ public class MastermindModelo
         puntosRank = Arrays.copyOf(puntosRank, puntosRank.length - 1);
     }
     
+    /**
+     * @brief Devuelve el vector de puntos del ranking
+     * @return Vector de puntos
+     */
     public int[] getRankingPuntos()
     {
         return puntosRank;
     }
     
+    /**
+     * @brief Reinicia el intento del J2
+     */
     public void resetIntento()
     {
         for (int i = 0; i < intento.length; i++)
@@ -234,6 +324,9 @@ public class MastermindModelo
         }
     }
     
+    /**
+     * @brief Reinicia la solucion del J1
+     */
     public void resetSolucion()
     {
         for (int i = 0; i < solucion.length; i++)
@@ -242,17 +335,28 @@ public class MastermindModelo
         }
     }
     
+    /**
+     * @brief Reinicia la ronda actual
+     */
     public void resetRondas()
     {
         rondaActual = 0;
     }
     
+    /**
+     * @brief Reinicia el vector de pistas
+     */
     public void resetPistas()
     {
         for (int i = 0; i < pistas.length; i++)
             pistas[i] = 0;
     }
     
+    /**
+     * @brief Convierte una string en el color correspondiente
+     * @param command Nombre del color
+     * @return Color
+     */
     public Color convertirColor(String command)
     {
         Boolean ok = false;
@@ -267,6 +371,9 @@ public class MastermindModelo
         return colores[i - 1];
     }
     
+    /**
+     * @brief Comprueba el código del J2 y asigna las pistas
+     */
     public void comprobarIntento()
     {
         Boolean ok;
@@ -291,6 +398,10 @@ public class MastermindModelo
         }
     }
     
+    /**
+     * @brief Calcula los puntos en función de los aciertos
+     * @return Puntos
+     */
     public int calculaPuntos()
     {
         puntos = 0;
@@ -314,34 +425,18 @@ public class MastermindModelo
         return puntos;
     }
     
+    /**
+     * @brief Devuelve los puntos
+     * @return Puntos
+     */
     public int getPuntos()
     {
         return puntos;
     }
     
-    public void aumentarPaso()
-    {
-        Boolean ok = true;
-        int i;
-        
-        if(rondaActual == 0)
-            paso++;
-        else
-        {
-            for(i = paso; (i < 4) && (ok); i++)
-            {
-                if (pistas[i] != 2)
-                    ok = false;
-            }
-            if (i == (paso + 1))
-                paso++;
-            else
-                paso = i;
-        }
-        
-        
-    }
-    
+    /**
+     * @brief Reinicia el juego entero
+     */
     public void resetJuego()
     {
         resetPistas();
@@ -351,6 +446,14 @@ public class MastermindModelo
         resetRondas();
     }
     
+    /**
+     * @brief Ordena el vector B en orden decreciente, y aplica el mismo orden a A
+     *        mediante el algoritmo de QuickSort
+     * @param A Vector de usuarios
+     * @param B Vector de puntos
+     * @param izq Límite izquierdo
+     * @param der Límite derecho
+     */
     public void quickSort(String[] A, int[] B, int izq, int der)
     {
         int pivote = B[izq];

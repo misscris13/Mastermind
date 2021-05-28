@@ -31,6 +31,10 @@ public class VistaFinal extends JFrame
     
     private MastermindModelo model;
     
+    /**
+     * @brief Constructor de la ventana
+     * @param model Modelo
+     */
     public VistaFinal(MastermindModelo model)
     {
         super("MasterMind");
@@ -71,12 +75,20 @@ public class VistaFinal extends JFrame
         this.setVisible(false);
     }
     
+    /**
+     * @brief Muestra la imagen final
+     * @param img Nombre de la imagen, "victoria" o "derrota"
+     */
     public void mostrarImagen(String img)
     {
         model.setImagen(img);
         imagenPanel.updateImagen();
     }
     
+    /**
+     * @brief Añadido de los oyentes de acción
+     * @param al Oyente de acción
+     */
     public void setActionListener(ActionListener al)
     {
         menu.setActionListener(al);

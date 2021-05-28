@@ -15,6 +15,10 @@ public class PanelDibujado extends JPanel
     private BufferedImage imagen;
     private MastermindModelo model;
     
+    /**
+     * @brief Constructor del panel
+     * @param model Modelo
+     */
     public PanelDibujado(MastermindModelo model)
     {
         this.model = model;

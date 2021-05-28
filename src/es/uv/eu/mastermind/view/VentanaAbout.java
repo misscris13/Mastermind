@@ -3,16 +3,15 @@ package es.uv.eu.mastermind.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 /**
- *
- * @author crist
+ * @brief Panel About
+ * @author Raúl Abella Bioque
+ * @author Cristal Campos Abad
  */
 public class VentanaAbout extends JFrame
 {
@@ -20,8 +19,12 @@ public class VentanaAbout extends JFrame
     private JLabel texto, texto2, l1, l2 , l3, l4, l5, l6;
     private Font fuente, fuente2;
     
-    public VentanaAbout() {
-        super("MasterMind");
+    /**
+     * @brief Constructor de la ventana
+     */
+    public VentanaAbout()
+    {
+        super("About");
 
         titulo = new JPanel();
         descripcion = new JPanel();

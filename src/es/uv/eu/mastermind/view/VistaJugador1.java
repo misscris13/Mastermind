@@ -18,16 +18,26 @@ import javax.swing.SwingConstants;
  */
 public class VistaJugador1 extends JFrame
 {
+    //MENU
     private JuegoMenu menu;
+    //COLORES, PISTAS Y PUNTOS
     private Combinacion combinacion;
     
-    private JPanel titulo, empezar;
-    private JLabel texto;
+    //NORTE, SUR
+    private JPanel cabecera, pie;
+    //MENSAJE DE BIENVENIDA
+    private JLabel titulo;
+    //FUENTE
     private Font fuente;
+    //BOTON "EMPEZAR"
     private JButton jugar;
-    
+    //MODELO
     private MastermindModelo model;
     
+    /**
+     * @brief Constructor de la ventana
+     * @param model Modelo
+     */
     public VistaJugador1(MastermindModelo model)
     {
         super("MasterMind");
@@ -36,8 +46,8 @@ public class VistaJugador1 extends JFrame
         
         combinacion = new Combinacion(model);
         menu = new JuegoMenu();
-        titulo = new JPanel();
-        empezar = new JPanel();
+        cabecera = new JPanel();
+        pie = new JPanel();
         
         jugar = new JButton("Empezar Juego");
         jugar.setActionCommand("Empezar");
@@ -46,29 +56,30 @@ public class VistaJugador1 extends JFrame
         
         this.setJMenuBar(menu);
         
-        texto = new JLabel("Bienvenido a Maestro de los colores", SwingConstants.CENTER);
+        titulo = new JLabel("Bienvenido a Maestro de los colores", SwingConstants.CENTER);
     
         fuente = new Font("Sans", Font.BOLD, 40);
         
-        texto.setFont(fuente);
-        texto.setForeground(Color.RED);
+        titulo.setFont(fuente);
+        titulo.setForeground(Color.RED);
         
-        titulo.add(texto);
+        cabecera.add(titulo);
         
-        this.add(titulo,BorderLayout.NORTH);
+        this.add(cabecera,BorderLayout.NORTH);
         
         this.add(combinacion, BorderLayout.CENTER);
-          
-        
         
         //Boton empezar
-        empezar.add(jugar);
-        this.add(empezar,BorderLayout.SOUTH);
-        
+        pie.add(jugar);
+        this.add(pie,BorderLayout.SOUTH);
         
         this.setVisible(true);
     }
     
+    /**
+     * @brief Añadido de los oyentes de acción
+     * @param al Oyente de acción
+     */
     public void setActionListener(ActionListener al)
     {
         menu.setActionListener(al);
@@ -76,8 +87,19 @@ public class VistaJugador1 extends JFrame
         jugar.addActionListener(al);
     }
     
+    /**
+     * @brief Actualiza la combinación
+     */
     public void actualizaEstado()
     {
         combinacion.actualizaEstado();
+    }
+    
+    /**
+     * @brief Reinicia los colores de la combinación
+     */
+    public void resetSolucion()
+    {
+        combinacion.resetCombinacion();
     }
 }

@@ -113,6 +113,11 @@ public class VistaJugador2 extends JFrame
         return usuario.getText();
     }
     
+    public void muestraUsuario()
+    {
+        usuarioPanel.setVisible(true);
+    }
+    
     public void setActionListener(ActionListener al)
     {
         menu.setActionListener(al);

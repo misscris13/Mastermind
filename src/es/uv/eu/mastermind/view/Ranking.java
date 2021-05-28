@@ -31,6 +31,8 @@ public class Ranking extends JFrame
         ranking.setLayout(new BoxLayout(ranking, BoxLayout.Y_AXIS));
         
         puestos = new JLabel[10];
+        for (int i = 0; i < puestos.length; i++)
+            puestos[i] = new JLabel("", SwingConstants.CENTER);
         
         titulo = new JLabel("Top 10 Jugadores", SwingConstants.CENTER);
     
@@ -49,10 +51,12 @@ public class Ranking extends JFrame
     
     public void actualizaRanking()
     {
+        ranking = new JPanel();
+        ranking.setLayout(new BoxLayout(ranking, BoxLayout.Y_AXIS));
         for (int i = 0; i < puestos.length; i++)
         {
-            puestos[i] = new JLabel("", SwingConstants.CENTER);
-            puestos[i].setText(String.valueOf(i+1) + "º) " + String.valueOf(model.getRankingPuntos()[i]) + " pts. - " + String.valueOf(model.getUsuario()));
+            puestos[i].setText("    " + String.valueOf(i+1) + "º " + String.valueOf(model.getRanking()[i]) + " " + String.valueOf(model.getRankingPuntos()[i]) + " pts.");
+            puestos[i].setFont(new Font("Sans", Font.PLAIN, 20));
             ranking.add(puestos[i]);
         }
         this.add(ranking);

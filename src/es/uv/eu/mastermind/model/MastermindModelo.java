@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 /**
@@ -209,25 +209,15 @@ public class MastermindModelo
     {
         Boolean ok = false;
         
-        String user = usuario, auxUsuario;
-        int ptos = devuelvePuntos(), auxPuntos, i;
+        ranking = Arrays.copyOf(ranking, ranking.length + 1);
+        ranking[ranking.length - 1] = usuario;
+        puntosRank = Arrays.copyOf(puntosRank, puntosRank.length + 1);
+        puntosRank[puntosRank.length - 1] = puntos;
         
-        for (i = 0; i < ranking.length; i++)
-        {
-            if (puntosRank[i] < ptos)
-            {
-                auxUsuario = ranking[i];
-                auxPuntos = puntosRank[i];
-                
-                ranking[i] = user;
-                puntosRank[i] = ptos;
-                
-                ok = true;
-                
-                user = auxUsuario;
-                ptos = auxPuntos;
-            }
-        }
+        quickSort(ranking, puntosRank, 0, (ranking.length - 1));
+        
+        ranking = Arrays.copyOf(ranking, ranking.length - 1);
+        puntosRank = Arrays.copyOf(puntosRank, puntosRank.length - 1);
     }
     
     public int[] getRankingPuntos()
@@ -301,9 +291,10 @@ public class MastermindModelo
         }
     }
     
-    public int devuelvePuntos()
+    public int calculaPuntos()
     {
         puntos = 0;
+        
         for (int i = 0; i < pistas.length; i++)
         {
             switch(pistas[i])
@@ -320,6 +311,11 @@ public class MastermindModelo
             }
         }
         
+        return puntos;
+    }
+    
+    public int getPuntos()
+    {
         return puntos;
     }
     
@@ -353,5 +349,41 @@ public class MastermindModelo
         resetSolucion();
         resetPaso();
         resetRondas();
+    }
+    
+    public void quickSort(String[] A, int[] B, int izq, int der)
+    {
+        int pivote = B[izq];
+        int i = izq;
+        int j = der;
+        int auxB;
+        String auxA;
+        
+        while (i < j)
+        {
+            while ((B[i] >= pivote) && (i < j))
+                i++;
+            while (B[j] < pivote)
+                j--;
+            if (i < j)
+            {
+                auxB = B[i];
+                auxA = A[i];
+                
+                B[i] = B[j];
+                A[i] = A[j];
+                
+                B[j] = auxB;
+                A[j] = auxA;
+            }
+        }
+        
+        A[izq] = A[j];
+        B[izq] = B[j];
+        
+        if (izq < (j - 1))
+            quickSort(A, B, izq, (j-1));
+        if ((j + 1) < der)
+            quickSort(A, B, (j+1), der);
     }
 }

@@ -1,11 +1,7 @@
 package es.uv.eu.mastermind.controller;
 
-import es.uv.eu.mastermind.model.MastermindModelo;
-import es.uv.eu.mastermind.view.Ranking;
-import es.uv.eu.mastermind.view.VistaFinal;
-import es.uv.eu.mastermind.view.VistaJugador1;
-import es.uv.eu.mastermind.view.VistaJugador2;
-import java.awt.Color;
+import es.uv.eu.mastermind.model.*;
+import es.uv.eu.mastermind.view.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -13,7 +9,8 @@ import java.awt.event.WindowEvent;
 
 /**
  *
- * @author Raúl
+ * @author Raúl Abella Bioque
+ * @author Cristal Campos Abad
  */
 public class MastermindController {
     
@@ -21,13 +18,16 @@ public class MastermindController {
     private VistaJugador2 jugador2;
     private VistaFinal fin;
     private Ranking rank;
+    private VentanaAbout about;
     private MastermindModelo model;
     
-    public MastermindController(VistaJugador1 jugador1, VistaJugador2 jugador2, VistaFinal fin, Ranking rank, MastermindModelo model){
+    public MastermindController(VistaJugador1 jugador1, VistaJugador2 jugador2, VistaFinal fin, Ranking rank, VentanaAbout about, MastermindModelo model)
+    {
         this.jugador1 = jugador1;
         this.jugador2 = jugador2;
         this.fin = fin;
         this.rank = rank;
+        this.about = about;
         this.model = model;
         
         jugador1.addWindowListener(new MastermindControllerWindowListener());
@@ -89,6 +89,7 @@ public class MastermindController {
                     System.out.println("Empezamos juego");
                     jugador2.setSize(800, 550);
                     jugador2.setVisible(true);
+                    jugador2.muestraUsuario();
                     jugador1.setVisible(false);
                     fin.setVisible(false);
                     model.setJugador(2);
@@ -96,7 +97,7 @@ public class MastermindController {
                     model.resetPaso();
                     break;
                 case "Siguiente":
-                    if ((model.pasarRonda(pistas)) && (model.devuelvePuntos() < 100))
+                    if ((model.pasarRonda(pistas)) && (model.calculaPuntos() < 100))
                     {
                         pistas = !pistas;
                         if (pistas)
@@ -105,29 +106,31 @@ public class MastermindController {
                         model.resetIntento();
                         model.resetPaso();
                     }
-                    else if (model.devuelvePuntos() == 100)
+                    else if (model.getPuntos() == 100)
                     {
                         fin.mostrarImagen("victoria");
                         fin.setSize(800, 550);
                         fin.setVisible(true);
-                        model.resetJuego();
+                        model.setRanking();
                         pistas = false;
                         jugador2.actualizaPistas(pistas);
                         jugador1.actualizaEstado();
                         jugador2.actualizaEstado();
                         jugador2.setVisible(false);
+                        model.resetJuego();
                     }
                     else
                     {
                         fin.mostrarImagen("derrota");
                         fin.setSize(800, 550);
                         fin.setVisible(true);
-                        model.resetJuego();
+                        model.setRanking();
                         pistas = false;
                         jugador2.actualizaPistas(pistas);
                         jugador1.actualizaEstado();
                         jugador2.actualizaEstado();
                         jugador2.setVisible(false);
+                        model.resetJuego();
                     }
                         
                     jugador2.actualizaTitulo();
@@ -140,6 +143,10 @@ public class MastermindController {
                     rank.setVisible(true);
                     rank.setSize(800, 550);
                     rank.actualizaRanking();
+                    break;
+                case "help":
+                    about.setVisible(true);
+                    about.setSize(800, 550);
                     break;
                 case "Salir":
                     System.out.println("Salir");

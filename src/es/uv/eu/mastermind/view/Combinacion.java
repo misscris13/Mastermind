@@ -151,7 +151,7 @@ public class Combinacion extends JPanel
             }
         }
         
-        puntos.setText(String.valueOf(model.devuelvePuntos()) + " puntos");
+        puntos.setText(String.valueOf(model.calculaPuntos()) + " puntos");
         statusPistas.setVisible(true);
     }
     
